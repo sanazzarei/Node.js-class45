@@ -1,6 +1,6 @@
 
 import express from "express";
-import {keys} from "./sources/keys.js";
+import keys from "./sources/keys.js";
 import fetch from "node-fetch";
 
 const app = express();
@@ -16,16 +16,18 @@ app.post("/weather", async (req, res) => {
 
   try {
     const response = await fetch(
-      `https://api.openweathermap.org/data/2.5/weather?APPID=${keys.API_KEY}`
+      `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${keys.API_Key}`
     );
-    if (response.status === 404) {
-      return res.status(404).json({ weatherText: "city is not found!" });
+    if (response.ok) {
+      const data = await response.json();
+      const temperature = data.main.temp.toFixed(2);
+      res.json({ weatherText: `Weather in ${data.name}: ${temperature}` });
     } else {
-      const data = response.json();
-      res.json({ weatherText: `Weather in ${cityName}: ${temperature}°C` });
+      return res.status(404).json({ weatherText: "city is not found!" });
+
     }
   } catch (error) {
-    res.status(500).send("An error occurred while fetching data from the API!");
+    res.status(500).end("An error occurred while fetching data from the API!");
   }
 });
 
