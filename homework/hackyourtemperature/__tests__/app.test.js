@@ -19,13 +19,13 @@ describe("Weather Endpoint - Invalid City Names", () => {
       .send({ city: "invalidCityName" });
 
     expect(response.status).toBe(404);
-    expect(response.body).toHaveProperty("weatherText", "City is not found!");
+    expect(response.body).toHaveProperty("weatherText", "city is not found!");
   });
     it("should return 400 when not containing a cityName", async () => {
       const response = await request(app).post("/weather").send({
         cityName: "",
       });
       expect(response.statusCode).toBe(404);
-      expect(response.body).toHaveProperty("weatherText", "City is not found!");
+      expect(response.body).toHaveProperty("weatherText", "city is not found!");
     });
 });

@@ -16,7 +16,7 @@ app.post("/weather", async (req, res) => {
 
   try {
     const response = await fetch(
-      `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${keys.API_Key}`
+      `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${keys.API_KEY}`
     );
     if (response.ok) {
       const data = await response.json();
